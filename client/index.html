@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>Classic Fox - First Live Code</title>
+
+        <!-- Bootstrap CSS -->
+        <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    
+        <!-- Vue, Axios -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+<body>
+    <div id="app">
+        <!-- MainPage after login -->
+        <div v-if="isLogin">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="/">Dad Jokes</a>
+                    <a href="#" class="text-danger" @click.prevent="logoutUser()">Logout</a>
+                </div>
+            </nav>
+            
+            <div class="jumbotron">
+                <div class="container">
+                    <h1 class="display-4">{{jokelist}}</h1>
+                    <hr class="my-4">
+                    <p>Do you like this joke?</p>
+                    <a class="btn btn-success" href="#" role="button" @click.prevent="favJoke(jokelist)">Yes, add this to My Favorites</a>
+                    <a class="btn btn-danger" href="#" role="button" @click.prevent="showJoke()">No, generate new joke</a>
+                </div>
+            </div>
+
+            <div class="container">
+                <h1 class="text-center">My Favorites</h1>
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col-lg-4 mb-4" v-for="joke in jokesFav">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">{{joke.content}}</p>
+                                <a href="#" class="card-link text-danger" @click.prevent="dislikeJoke(joke)">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page before login -->
+        <div v-if="!isLogin">
+            <div class="container my-4">
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="card mb-4">
+                            <div class="card-header text-center">Login</div>
+                                <div class="card-body">
+                                    <form method="post" v-on:submit.prevent="loginUser">
+                                        <div class="form-group">
+                                            <label for="email">Email address</label>
+                                            <input
+                                            type="email"
+                                            class="form-control"
+                                            id="email"
+                                            aria-describedby="emailHelp"
+                                            placeholder="Enter email"
+                                            v-model="loginEmail">
+                                            <small id="emailHelp" class="form-text text-muted">
+                                            We'll never share your email with anyone else.
+                                            </small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input
+                                            type="password"
+                                            class="form-control"
+                                            id="password"
+                                            placeholder="Password"
+                                            v-model="loginPassword">
+                                        </div>
+                                        <p v-if="errLogin" style="color: red; text-align: center">Username/password is wrong</p>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>                   
+        </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>
